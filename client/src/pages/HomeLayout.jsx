@@ -1,13 +1,12 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom';
+import React from "react";
+import { Outlet } from "react-router-dom";
 
 function HomeLayout() {
   return (
-    <div>
-      <h1>HomeLayout</h1>
-      <Outlet/>
-    </div>
+    <>
+      <Outlet />
+    </>
   );
 }
 
-export default HomeLayout
+export default HomeLayout;
