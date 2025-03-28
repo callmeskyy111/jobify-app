@@ -1,5 +1,5 @@
 export { default as Logo } from "./Logo";
-// export { default as Landing } from "./Landing";
+export { default as FormRow } from "./FormRow";
 // export { default as HomeLayout } from "./HomeLayout";
 // export { default as Register } from "./Register";
 // export { default as Login } from "./Login";
