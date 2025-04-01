@@ -1,14 +1,11 @@
-import { NotFoundError } from "../errors/customErrors.js"; //Optional
 import Job from "../models/job.model.js";
-import { StatusCodes } from "http-status-codes"; //Optional
+import { StatusCodes } from "http-status-codes";
 
 // Create a new job
 export async function createJob(req, res) {
   try {
     const { company, position } = req.body;
-
     const newJob = await Job.create({ company, position });
-
     res.status(StatusCodes.CREATED).json({
       success: true,
       message: "New job created ✅",
@@ -23,7 +20,7 @@ export async function createJob(req, res) {
 }
 
 // Get all jobs
-export async function getAllJobs(req, res) {
+export async function getAllJobs(_, res) {
   try {
     const jobs = await Job.find({});
     res.status(StatusCodes.OK).json({
@@ -43,9 +40,7 @@ export async function getAllJobs(req, res) {
 // Get a single job by ID
 export async function getSingleJob(req, res) {
   try {
-    const { id } = req.params;
-    const singleJob = await Job.findById(id);
-    if (!singleJob) throw new NotFoundError(`No job with id ${id} found`);
+    const singleJob = await Job.findById(req.params.id);
     res
       .status(StatusCodes.OK)
       .json({ success: true, message: "Fetched job details ✅", singleJob });
@@ -60,13 +55,9 @@ export async function getSingleJob(req, res) {
 // Update a job
 export async function updateJob(req, res) {
   try {
-    const { id } = req.params;
-
-    const updatedJob = await Job.findOneAndUpdate({ _id: id }, req.body, {
+    const updatedJob = await Job.findOneAndUpdate(req.params.id, req.body, {
       new: true,
     });
-
-    if (!updatedJob) throw new NotFoundError(`Job with id: ${id}, not found`);
 
     res.status(StatusCodes.OK).json({
       success: true,
@@ -84,11 +75,7 @@ export async function updateJob(req, res) {
 // Delete a job
 export async function deleteJob(req, res) {
   try {
-    const { id } = req.params;
-    const deletedJob = await Job.findByIdAndDelete(id);
-
-    if (!deletedJob) throw new NotFoundError(`Job with id: ${id} not found`);
-
+    const deletedJob = await Job.findByIdAndDelete(req.params.id);
     res.status(StatusCodes.OK).json({
       success: true,
       message: "Job deleted successfully ✅",

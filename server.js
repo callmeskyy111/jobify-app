@@ -1,8 +1,9 @@
 import express from "express";
 import morgan from "morgan";
 import "dotenv/config";
-import connectDb from "./connectDb.js";
+import connectDb from "./utils/connectDb.js";
 import jobRouter from "./routes/job.router.js";
+import errorHandlerMiddleware from "./middlewares/errorHandler.middleware.js";
 
 const app = express();
 
@@ -16,14 +17,14 @@ if (process.env.NODE_ENV === "development") {
 const PORT = process.env.PORT || 5100;
 
 app.get("/", (req, res) => {
-  res.send({ success: true, message: "<h2>Hello from JOBIFY-SERVER ✅</h2>" });
+  res.send({
+    success: true,
+    message: "<h2>Hello from SERVER ✅</h2>",
+  });
 });
 
 //routers
 app.use("/api/v1/jobs", jobRouter);
-
-//middleware
-import errorHandlerMiddleware from "./middlewares/errorHandler.middleware.js";
 
 //Not found route 4️⃣0️⃣4️⃣
 app.use("*", (req, res) => {
