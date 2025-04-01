@@ -1,5 +1,6 @@
+import { NotFoundError } from "../errors/customErrors.js"; //Optional
 import Job from "../models/job.model.js";
-import { StatusCodes } from "http-status-codes";
+import { StatusCodes } from "http-status-codes"; //Optional
 
 // Create a new job
 export async function createJob(req, res) {
@@ -44,14 +45,7 @@ export async function getSingleJob(req, res) {
   try {
     const { id } = req.params;
     const singleJob = await Job.findById(id);
-
-    if (!singleJob) {
-      return res.status(StatusCodes.NOT_FOUND).json({
-        success: false,
-        message: `No job found with id: '${id}' ❌`,
-      });
-    }
-
+    if (!singleJob) throw new NotFoundError(`No job with id ${id} found`);
     res
       .status(StatusCodes.OK)
       .json({ success: true, message: "Fetched job details ✅", singleJob });
@@ -72,12 +66,7 @@ export async function updateJob(req, res) {
       new: true,
     });
 
-    if (!updatedJob) {
-      return res.status(StatusCodes.NOT_FOUND).json({
-        success: false,
-        message: `No job found with id: '${id}' ❌`,
-      });
-    }
+    if (!updatedJob) throw new NotFoundError(`Job with id: ${id}, not found`);
 
     res.status(StatusCodes.OK).json({
       success: true,
@@ -98,12 +87,7 @@ export async function deleteJob(req, res) {
     const { id } = req.params;
     const deletedJob = await Job.findByIdAndDelete(id);
 
-    if (!deletedJob) {
-      return res.status(StatusCodes.NOT_FOUND).json({
-        success: false,
-        message: `No job found with id: '${id}' ❌`,
-      });
-    }
+    if (!deletedJob) throw new NotFoundError(`Job with id: ${id} not found`);
 
     res.status(StatusCodes.OK).json({
       success: true,
