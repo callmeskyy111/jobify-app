@@ -20,6 +20,10 @@ const JobSchema = new mongoose.Schema(
       default: "My City",
       required: true,
     },
+    createdBy: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
   },
   { timestamps: true }
 );

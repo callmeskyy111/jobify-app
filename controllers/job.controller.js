@@ -1,28 +1,42 @@
 import Job from "../models/job.model.js";
 import { StatusCodes } from "http-status-codes";
 
-// Create a new job
+// Create Job
 export async function createJob(req, res) {
   try {
-    const { company, position } = req.body;
-    const newJob = await Job.create({ company, position });
+    if (!req.user) {
+      res.status(StatusCodes.UNAUTHORIZED).json({
+        success: false,
+        message: "Unauthorized! No token provided 🔒",
+      });
+    }
+    req.body.createdBy = req.user.userId;
+    const job = await Job.create(req.body);
     res.status(StatusCodes.CREATED).json({
       success: true,
       message: "New job created ✅",
-      createdJob: newJob,
+      createdJob: job,
     });
   } catch (err) {
     console.error(err);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ success: false, error: err.message });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: err.message || "Failed to create job ❌",
+    });
   }
 }
 
-// Get all jobs
-export async function getAllJobs(_, res) {
+// Get All Jobs
+export async function getAllJobs(req, res) {
   try {
-    const jobs = await Job.find({});
+    if (!req.user) {
+      res.status(StatusCodes.UNAUTHORIZED).json({
+        success: false,
+        message: "Unauthorized! No token provided 🔒",
+      });
+    }
+
+    const jobs = await Job.find({ createdBy: req.user.userId });
     res.status(StatusCodes.OK).json({
       success: true,
       message: "Fetched all jobs ✅",
@@ -31,33 +45,66 @@ export async function getAllJobs(_, res) {
     });
   } catch (err) {
     console.error(err);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ success: false, error: err.message });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: err.message || "Something went wrong ❌",
+    });
   }
 }
 
-// Get a single job by ID
+// Get Single Job
 export async function getSingleJob(req, res) {
   try {
+    if (!req.user) {
+      res.status(StatusCodes.UNAUTHORIZED).json({
+        success: false,
+        message: "Unauthorized! No token provided 🔒",
+      });
+    }
     const singleJob = await Job.findById(req.params.id);
-    res
-      .status(StatusCodes.OK)
-      .json({ success: true, message: "Fetched job details ✅", singleJob });
+
+    if (!singleJob) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        success: false,
+        message: "Job not found ❌",
+      });
+    }
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: "Fetched job details ✅",
+      singleJob,
+    });
   } catch (err) {
     console.error(err);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ success: false, error: err.message });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: err.message || "Something went wrong ❌",
+    });
   }
 }
 
-// Update a job
+// Update Job
 export async function updateJob(req, res) {
   try {
-    const updatedJob = await Job.findOneAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    if (!req.user) {
+      res.status(StatusCodes.UNAUTHORIZED).json({
+        success: false,
+        message: "Unauthorized! No token provided 🔒",
+      });
+    }
+    const updatedJob = await Job.findOneAndUpdate(
+      { _id: req.params.id },
+      req.body,
+      { new: true }
+    );
+
+    if (!updatedJob) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        success: false,
+        message: "Job not found ❌",
+      });
+    }
 
     res.status(StatusCodes.OK).json({
       success: true,
@@ -66,16 +113,31 @@ export async function updateJob(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ success: false, error: err.message });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: err.message || "Something went wrong ❌",
+    });
   }
 }
 
-// Delete a job
+// Delete Job
 export async function deleteJob(req, res) {
   try {
+    if (!req.user) {
+      res.status(StatusCodes.UNAUTHORIZED).json({
+        success: false,
+        message: "Unauthorized! No token provided 🔒",
+      });
+    }
     const deletedJob = await Job.findByIdAndDelete(req.params.id);
+
+    if (!deletedJob) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        success: false,
+        message: "Job not found ❌",
+      });
+    }
+
     res.status(StatusCodes.OK).json({
       success: true,
       message: "Job deleted successfully ✅",
@@ -83,8 +145,9 @@ export async function deleteJob(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ success: false, error: err.message });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: err.message || "Something went wrong ❌",
+    });
   }
 }

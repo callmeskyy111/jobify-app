@@ -4,9 +4,13 @@ import "dotenv/config";
 import connectDb from "./utils/connectDb.js";
 import jobRouter from "./routes/job.router.js";
 import errorHandlerMiddleware from "./middlewares/errorHandler.middleware.js";
+import authRouter from "./routes/auth.router.js";
+import { authenticateUser } from "./middlewares/auth.middleware.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
+app.use(cookieParser());
 app.use(express.json());
 connectDb();
 
@@ -24,7 +28,8 @@ app.get("/", (req, res) => {
 });
 
 //routers
-app.use("/api/v1/jobs", jobRouter);
+app.use("/api/v1/jobs", authenticateUser, jobRouter);
+app.use("/api/v1/auth", authRouter);
 
 //Not found route 4️⃣0️⃣4️⃣
 app.use("*", (req, res) => {
