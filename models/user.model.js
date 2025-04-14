@@ -15,9 +15,16 @@ const UserSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ["user", "admin"],
-    default: 'user',
+    default: "user",
   },
 });
 
-const User = mongoose.models.User || mongoose.model("User",UserSchema);
+UserSchema.methods.toJSON = function () {
+  //removing the password from the response
+  let obj = this.toObject();
+  delete obj.password;
+  return obj;
+};
+
+const User = mongoose.models.User || mongoose.model("User", UserSchema);
 export default User;

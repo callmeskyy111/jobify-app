@@ -82,7 +82,7 @@ export const validateRegisterInput = withValidationErrors([
     .custom(async (email) => {
       const user = await User.findOne({ email });
       if (user) {
-        throw new BadRequestError("user-Email already exists! 🔴");
+        throw new BadRequestError("Email already exists! 🔴");
       }
     }),
 
@@ -102,4 +102,24 @@ export const validateLoginInput = withValidationErrors([
     .isEmail()
     .withMessage("Invalid Email Format! ❌📧"),
   body("password").notEmpty().withMessage("Password is required!🔴"),
+]);
+
+//! UPDATING CURRENTLY LOGGED-IN USER
+export const validateUpdatedUser = withValidationErrors([
+  //for strings
+  body("name").notEmpty().withMessage("user-name is required!🔴"),
+  body("lastName").notEmpty().withMessage("user-lastName is required!🔴"),
+  body("email")
+    .notEmpty()
+    .withMessage("email is required!🔴")
+    .isEmail()
+    .withMessage("Invalid Email Format! ❌📧")
+    .custom(async (email, { req }) => {
+      const user = await User.findOne({ email });
+      if (user && user._id.toString() !== req.user.userId) {
+        throw new BadRequestError("Email already exists! 🔴");
+      }
+    }),
+
+  body("location").notEmpty().withMessage("user-location is required!🔴"),
 ]);
