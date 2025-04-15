@@ -8,19 +8,19 @@ function Login() {
     <LoginWrapper>
       <form className="form">
         <Logo />
-        <h4>Login</h4>
+        <h4>Login🔐</h4>
         <FormRow
           type="email"
           name="email"
           placeholderTxt="Enter your email"
-          labelTxt="Email📧"
+          labelTxt="Email"
           defaultValue="john@example.com"
         />
         <FormRow
           type="password"
           name="password"
           placeholderTxt="Enter your password"
-          labelTxt="Password🔑"
+          labelTxt="Password"
           defaultValue="password123"
         />
         <button type="button" className="btn btn-block">
