@@ -5,7 +5,7 @@ import { useDashboardCtxt } from "../pages/DashboardLayout";
 
 const LogoutContainer = () => {
   const [showLogout, setShowLogout] = useState(false);
-  const { user, logoutUser } = useDashboardCtxt();
+  const { currentUser, logoutUser } = useDashboardCtxt();
 
   return (
     <LogOutContainerWrapper>
@@ -13,13 +13,13 @@ const LogoutContainer = () => {
         type="button"
         className="btn logout-btn"
         onClick={() => setShowLogout(!showLogout)}>
-        {user.avatar ? (
-          <img src={user.avatar} alt="avatar" className="img" />
+        {currentUser?.avatar ? (
+          <img src={currentUser?.avatar} alt="avatar" className="img" />
         ) : (
           <FaUserCircle />
         )}
 
-        {user?.name}
+        {currentUser.name}
         <FaCaretDown />
       </button>
       <div className={showLogout ? "dropdown show-dropdown" : "dropdown"}>
