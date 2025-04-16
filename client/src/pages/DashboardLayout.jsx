@@ -24,7 +24,7 @@ const DashboardCtxt = createContext(); // setting up the context
 function DashboardLayout() {
   const { currentUser } = useLoaderData();
   const navigate = useNavigate();
-  const [showSidebar, setShowSidebar] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(true);
   const [isDarkTheme, setIsDarkTheme] = useState(checkDefaultTheme());
 
   function toggleDarkTheme() {

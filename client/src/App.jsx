@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 export function checkDefaultTheme() {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
@@ -27,6 +24,7 @@ import {
 import { registerAction } from "./pages/Register";
 import { loginAction } from "./pages/Login";
 import { dashboardLoader } from "./pages/DashboardLayout";
+import { createJobAction } from "./pages/AddJob";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -55,6 +53,7 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <AddJob />,
+            action: createJobAction,
           },
           {
             path: "stats",

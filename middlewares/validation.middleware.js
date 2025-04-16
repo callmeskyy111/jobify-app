@@ -41,7 +41,7 @@ export const validateJobInput = withValidationErrors([
   //for strings
   body("company").notEmpty().withMessage("company-name is required!🔴"),
   body("position").notEmpty().withMessage("job-position is required! 🔴"),
-  body("jobLocation").notEmpty().withMessage("job-location is required!🔴"),
+  body("location").notEmpty().withMessage("job-location is required!🔴"),
   //for enums:
   body("jobStatus")
     .isIn(Object.values(JOB_STATUS))
