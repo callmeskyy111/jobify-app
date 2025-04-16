@@ -41,7 +41,7 @@ export async function getAllJobs(req, res) {
       success: true,
       message: "Fetched all jobs ✅",
       totalJobs: jobs.length,
-      jobList: jobs,
+      jobs,
     });
   } catch (err) {
     console.error(err);
