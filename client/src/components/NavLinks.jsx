@@ -4,11 +4,13 @@ import { useDashboardCtxt } from "../pages/DashboardLayout";
 import { NavLink } from "react-router-dom";
 
 function NavLinks({ isBigSidebar }) {
-  const { toggleSidebar } = useDashboardCtxt();
+  const { toggleSidebar, currentUser } = useDashboardCtxt();
   return (
     <div className="nav-links">
       {links.map((link) => {
         const { text, path, icon } = link;
+        const { role } = currentUser;
+        if (path === "admin" && role !== "admin") return;
         return (
           <NavLink
             to={path}

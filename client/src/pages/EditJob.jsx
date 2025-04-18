@@ -31,6 +31,7 @@ export const editPageAction = async ({ request, params }) => {
 
 function EditJob() {
   const { singleJob } = useLoaderData();
+  console.log(singleJob);
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
   return (
@@ -50,7 +51,7 @@ function EditJob() {
           />
           <FormRow
             type="text"
-            name="location"
+            name="jobLocation"
             labelTxt="Job Location"
             defaultValue={singleJob.jobLocation}
           />

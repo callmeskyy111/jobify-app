@@ -24,7 +24,6 @@ function AddJob() {
   const { currentUser } = useOutletContext();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
-  console.log(currentUser.location);
   return (
     <Wrapper>
       <Form method="post" className="form">
@@ -35,8 +34,8 @@ function AddJob() {
           <FormRow
             type="text"
             labelText="job location"
-            name="location"
-            defaultValue={currentUser.location}
+            name="jobLocation"
+            defaultValue={currentUser.jobLocation}
           />
           <FormRowSelect
             labelTxt="job status"
