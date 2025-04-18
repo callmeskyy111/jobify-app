@@ -1,13 +1,5 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-export function checkDefaultTheme() {
-  const isDarkTheme = localStorage.getItem("darkTheme") === "true";
-  document.body.classList.toggle("dark-theme", isDarkTheme);
-  return isDarkTheme;
-}
-
-checkDefaultTheme();
 import {
   HomeLayout,
   Landing,
@@ -20,12 +12,23 @@ import {
   AllJobs,
   Profile,
   Admin,
+  EditJob,
 } from "./pages";
 import { registerAction } from "./pages/Register";
 import { loginAction } from "./pages/Login";
 import { dashboardLoader } from "./pages/DashboardLayout";
 import { createJobAction } from "./pages/AddJob";
 import { allJobsLoader } from "./pages/AllJobs";
+import { editPageAction, editPageLoader } from "./pages/EditJob";
+import { deleteJobAction } from "./pages/DeleteJob";
+
+export function checkDefaultTheme() {
+  const isDarkTheme = localStorage.getItem("darkTheme") === "true";
+  document.body.classList.toggle("dark-theme", isDarkTheme);
+  return isDarkTheme;
+}
+
+checkDefaultTheme();
 const router = createBrowserRouter([
   {
     path: "/",
@@ -73,6 +76,13 @@ const router = createBrowserRouter([
             path: "admin",
             element: <Admin />,
           },
+          {
+            path: "edit-job/:id",
+            element: <EditJob />,
+            action: editPageAction,
+            loader: editPageLoader,
+          },
+          { path: "delete-job/:id", action: deleteJobAction },
         ],
       },
     ],
