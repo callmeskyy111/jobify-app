@@ -8,6 +8,9 @@ import authRouter from "./routes/auth.router.js";
 import { authenticateUser } from "./middlewares/auth.middleware.js";
 import userRouter from "./routes/user.router.js";
 import cookieParser from "cookie-parser";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import path from "path";
 
 
 const app = express();
@@ -20,6 +23,9 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
+//public
+const __dirname = dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.resolve(__dirname, "./public")));
 const PORT = process.env.PORT || 5100;
 
 app.get("/", (req, res) => {
