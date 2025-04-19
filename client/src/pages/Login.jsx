@@ -13,7 +13,7 @@ export const loginAction = async ({ request }) => {
     return redirect("/dashboard");
   } catch (err) {
     console.log("🔴ERROR:", err);
-    toast.error(err?.response?.data?.msg);
+    toast.error(`${err?.response?.statusText}, ${err?.message}`);
     return err;
   }
 };
@@ -31,14 +31,14 @@ function Login() {
           name="email"
           placeholderTxt="Enter your email"
           labelTxt="Email"
-          defaultValue="john@example.com"
+          defaultValue="soumadip@example.com"
         />
         <FormRow
           type="password"
           name="password"
           placeholderTxt="Enter your password"
           labelTxt="Password"
-          defaultValue="password123"
+          defaultValue="soumadip12345"
         />
         <button type="submit" className="btn btn-block" disabled={isSubmitting}>
           {isSubmitting ? "Submitting... ⌛" : "Submit"}

@@ -33,35 +33,35 @@ function Register() {
           type="text"
           name="name"
           labelTxt="First Name"
-          defaultValue="John"
+          defaultValue="Soumadip"
           placeholderTxt="Enter your first name"
         />
         <FormRow
           type="text"
           name="lastName"
           labelTxt="Last Name"
-          defaultValue="Doe"
+          defaultValue="Banerjee"
           placeholderTxt="Enter your last name"
         />
         <FormRow
           type="text"
           name="location"
           labelTxt="Location"
-          defaultValue="Berlin"
+          defaultValue="CCU"
           placeholderTxt="Enter your location"
         />
         <FormRow
           type="email"
           name="email"
           labelTxt="Email"
-          defaultValue="john@example.com"
+          defaultValue="soumadip@example.com"
           placeholderTxt="Enter your email"
         />
         <FormRow
           type="password"
           name="password"
           labelTxt="Password"
-          defaultValue="password123"
+          defaultValue="soumadip12345"
           placeholderTxt="Enter your password"
         />
 
